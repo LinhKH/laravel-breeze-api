@@ -6,3 +6,6 @@ $t = Task::factory->for($p)->for($u, 'creator')->create();
 
 ===============================================================
 php artisan make:model Member --pivot --migration
+
+===============================================================
+auth()->loginUsingId(1);
