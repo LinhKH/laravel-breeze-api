@@ -3,3 +3,6 @@ $u = User::factory()->create();
 $p = Project::factory->for($u, 'creator')->create();
 
 $t = Task::factory->for($p)->for($u, 'creator')->create();
+
+===============================================================
+php artisan make:model Member --pivot --migration

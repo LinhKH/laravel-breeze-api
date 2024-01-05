@@ -14,6 +14,11 @@ use Spatie\QueryBuilder\QueryBuilder;
 
 class ProjectController extends Controller
 {
+    public function __construct()
+    {
+        $this->authorizeResource(Project::class, 'project');
+    }
+
     /**
      * Display a listing of the resource.
      */
@@ -49,7 +54,9 @@ class ProjectController extends Controller
      */
     public function show(Project $project)
     {
-        return (new ProjectResource($project))->load('tasks');
+        return (new ProjectResource($project))
+                ->load('tasks')
+                ->load('members');
     }
 
     /**
