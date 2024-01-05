@@ -5,10 +5,12 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreProjectRequest;
 use App\Http\Requests\UpdateProjectRequest;
 use App\Http\Resources\ProjectResource;
+use App\Http\Resources\ProjectCollection;
 use App\Models\Project;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Spatie\QueryBuilder\QueryBuilder;
 
 class ProjectController extends Controller
 {
@@ -17,7 +19,11 @@ class ProjectController extends Controller
      */
     public function index()
     {
-        //
+        $projects = QueryBuilder::for(Project::class)
+                    ->allowedIncludes('tasks') // api/projects?include=tasks => to active whenLoaded('tasks')
+                    ->paginate();
+
+        return new ProjectCollection($projects);
     }
 
     /**
@@ -41,9 +47,9 @@ class ProjectController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(Project $project)
     {
-        //
+        return (new ProjectResource($project))->load('tasks');
     }
 
     /**
