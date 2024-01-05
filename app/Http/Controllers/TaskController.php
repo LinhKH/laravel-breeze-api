@@ -7,12 +7,17 @@ use App\Http\Requests\UpdateTaskRequest;
 use App\Http\Resources\TaskCollection;
 use App\Http\Resources\TaskResource;
 use App\Models\Task;
+use App\Policies\TaskPolicy;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Spatie\QueryBuilder\QueryBuilder;
 
 class TaskController extends Controller
 {
+    public function __construct()
+    {
+        $this->authorizeResource(TaskPolicy::class, 'task');
+    }
     /**
      * Display a listing of the resource.
      */
